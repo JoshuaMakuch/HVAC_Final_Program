@@ -60,6 +60,11 @@ Partial Class HVAC_Final_Program_Form
         Me.PortStatePictureBox = New System.Windows.Forms.PictureBox()
         Me.ISULogoPictureBox = New System.Windows.Forms.PictureBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.OpenSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HouseTemperatureLabel = New System.Windows.Forms.Label()
+        Me.SaveCurrentSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReloadSettingsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DifferentialTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
         CType(Me.FanIndicatorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CoolingElementIndicatorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,7 +81,7 @@ Partial Class HVAC_Final_Program_Form
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SerialPortToolStripMenuItem, Me.HVACSettingsToolStripMenuItem, Me.HVACSettingToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1003, 28)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1003, 30)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -85,7 +90,7 @@ Partial Class HVAC_Final_Program_Form
         Me.SerialPortToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem})
         Me.SerialPortToolStripMenuItem.ForeColor = System.Drawing.Color.Black
         Me.SerialPortToolStripMenuItem.Name = "SerialPortToolStripMenuItem"
-        Me.SerialPortToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
+        Me.SerialPortToolStripMenuItem.Size = New System.Drawing.Size(46, 26)
         Me.SerialPortToolStripMenuItem.Text = "File"
         '
         'ExitToolStripMenuItem
@@ -99,45 +104,46 @@ Partial Class HVAC_Final_Program_Form
         Me.HVACSettingsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConnectToolStripMenuItem, Me.SettToolStripMenuItem, Me.ReloadSettingsToolStripMenuItem})
         Me.HVACSettingsToolStripMenuItem.ForeColor = System.Drawing.Color.Black
         Me.HVACSettingsToolStripMenuItem.Name = "HVACSettingsToolStripMenuItem"
-        Me.HVACSettingsToolStripMenuItem.Size = New System.Drawing.Size(85, 24)
+        Me.HVACSettingsToolStripMenuItem.Size = New System.Drawing.Size(85, 26)
         Me.HVACSettingsToolStripMenuItem.Text = "COM Port"
         '
         'ConnectToolStripMenuItem
         '
         Me.ConnectToolStripMenuItem.Name = "ConnectToolStripMenuItem"
-        Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(193, 26)
+        Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.ConnectToolStripMenuItem.Text = "Connect"
         '
         'SettToolStripMenuItem
         '
-        Me.SettToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedCOMPortToolStripMenuItem, Me.SelectedBaudRateToolStripMenuItem})
+        Me.SettToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedCOMPortToolStripMenuItem, Me.SelectedBaudRateToolStripMenuItem, Me.OpenSettingsToolStripMenuItem})
         Me.SettToolStripMenuItem.Name = "SettToolStripMenuItem"
-        Me.SettToolStripMenuItem.Size = New System.Drawing.Size(193, 26)
+        Me.SettToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.SettToolStripMenuItem.Text = "Settings"
         '
         'SelectedCOMPortToolStripMenuItem
         '
         Me.SelectedCOMPortToolStripMenuItem.Name = "SelectedCOMPortToolStripMenuItem"
-        Me.SelectedCOMPortToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.SelectedCOMPortToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.SelectedCOMPortToolStripMenuItem.Text = "SelectedCOMPort"
         '
         'SelectedBaudRateToolStripMenuItem
         '
         Me.SelectedBaudRateToolStripMenuItem.Name = "SelectedBaudRateToolStripMenuItem"
-        Me.SelectedBaudRateToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.SelectedBaudRateToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.SelectedBaudRateToolStripMenuItem.Text = "SelectedBaudRate"
         '
         'ReloadSettingsToolStripMenuItem
         '
         Me.ReloadSettingsToolStripMenuItem.Name = "ReloadSettingsToolStripMenuItem"
-        Me.ReloadSettingsToolStripMenuItem.Size = New System.Drawing.Size(193, 26)
+        Me.ReloadSettingsToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.ReloadSettingsToolStripMenuItem.Text = "Reload Settings"
         '
         'HVACSettingToolStripMenuItem
         '
+        Me.HVACSettingToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveCurrentSettingsToolStripMenuItem, Me.ReloadSettingsToolStripMenuItem1})
         Me.HVACSettingToolStripMenuItem.ForeColor = System.Drawing.Color.Black
         Me.HVACSettingToolStripMenuItem.Name = "HVACSettingToolStripMenuItem"
-        Me.HVACSettingToolStripMenuItem.Size = New System.Drawing.Size(116, 24)
+        Me.HVACSettingToolStripMenuItem.Size = New System.Drawing.Size(116, 26)
         Me.HVACSettingToolStripMenuItem.Text = "HVAC Settings"
         '
         'SerialPort1
@@ -148,11 +154,11 @@ Partial Class HVAC_Final_Program_Form
         Me.OverallTemperatureLabel.AutoSize = True
         Me.OverallTemperatureLabel.Font = New System.Drawing.Font("Trebuchet MS", 72.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.OverallTemperatureLabel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(246, Byte), Integer), CType(CType(146, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.OverallTemperatureLabel.Location = New System.Drawing.Point(366, 173)
+        Me.OverallTemperatureLabel.Location = New System.Drawing.Point(302, 181)
         Me.OverallTemperatureLabel.Name = "OverallTemperatureLabel"
-        Me.OverallTemperatureLabel.Size = New System.Drawing.Size(297, 151)
+        Me.OverallTemperatureLabel.Size = New System.Drawing.Size(404, 151)
         Me.OverallTemperatureLabel.TabIndex = 1
-        Me.OverallTemperatureLabel.Text = "75ºF"
+        Me.OverallTemperatureLabel.Text = "75.5ºF"
         Me.OverallTemperatureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ExitButton
@@ -259,9 +265,9 @@ Partial Class HVAC_Final_Program_Form
         Me.HighTempTextBoxLabel.ForeColor = System.Drawing.Color.Black
         Me.HighTempTextBoxLabel.Location = New System.Drawing.Point(12, 127)
         Me.HighTempTextBoxLabel.Name = "HighTempTextBoxLabel"
-        Me.HighTempTextBoxLabel.Size = New System.Drawing.Size(59, 16)
+        Me.HighTempTextBoxLabel.Size = New System.Drawing.Size(77, 16)
         Me.HighTempTextBoxLabel.TabIndex = 23
-        Me.HighTempTextBoxLabel.Text = "Heat To:"
+        Me.HighTempTextBoxLabel.Text = "High Temp:"
         '
         'LowTempTextBoxLabel
         '
@@ -269,9 +275,9 @@ Partial Class HVAC_Final_Program_Form
         Me.LowTempTextBoxLabel.ForeColor = System.Drawing.Color.Black
         Me.LowTempTextBoxLabel.Location = New System.Drawing.Point(12, 249)
         Me.LowTempTextBoxLabel.Name = "LowTempTextBoxLabel"
-        Me.LowTempTextBoxLabel.Size = New System.Drawing.Size(58, 16)
+        Me.LowTempTextBoxLabel.Size = New System.Drawing.Size(73, 16)
         Me.LowTempTextBoxLabel.TabIndex = 24
-        Me.LowTempTextBoxLabel.Text = "Cool To:"
+        Me.LowTempTextBoxLabel.Text = "Low Temp:"
         '
         'ContextMenuStrip1
         '
@@ -331,13 +337,13 @@ Partial Class HVAC_Final_Program_Form
         'SystemTemperatureLabel
         '
         Me.SystemTemperatureLabel.AutoSize = True
-        Me.SystemTemperatureLabel.Font = New System.Drawing.Font("Trebuchet MS", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SystemTemperatureLabel.Font = New System.Drawing.Font("Trebuchet MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SystemTemperatureLabel.ForeColor = System.Drawing.Color.Black
-        Me.SystemTemperatureLabel.Location = New System.Drawing.Point(454, 476)
+        Me.SystemTemperatureLabel.Location = New System.Drawing.Point(369, 476)
         Me.SystemTemperatureLabel.Name = "SystemTemperatureLabel"
-        Me.SystemTemperatureLabel.Size = New System.Drawing.Size(100, 49)
+        Me.SystemTemperatureLabel.Size = New System.Drawing.Size(250, 26)
         Me.SystemTemperatureLabel.TabIndex = 39
-        Me.SystemTemperatureLabel.Text = "75ºF"
+        Me.SystemTemperatureLabel.Text = "System Temperature: 75ºF"
         Me.SystemTemperatureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'FanIndicatorPictureBox
@@ -396,12 +402,47 @@ Partial Class HVAC_Final_Program_Form
         Me.ISULogoPictureBox.TabStop = False
         Me.ToolTip1.SetToolTip(Me.ISULogoPictureBox, "HVAC System Program" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Designed By: Joshua Makuch" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Fall 2023 - RCET")
         '
+        'OpenSettingsToolStripMenuItem
+        '
+        Me.OpenSettingsToolStripMenuItem.Name = "OpenSettingsToolStripMenuItem"
+        Me.OpenSettingsToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.OpenSettingsToolStripMenuItem.Text = "Open Settings"
+        '
+        'HouseTemperatureLabel
+        '
+        Me.HouseTemperatureLabel.AutoSize = True
+        Me.HouseTemperatureLabel.Font = New System.Drawing.Font("Trebuchet MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.HouseTemperatureLabel.ForeColor = System.Drawing.Color.Black
+        Me.HouseTemperatureLabel.Location = New System.Drawing.Point(390, 149)
+        Me.HouseTemperatureLabel.Name = "HouseTemperatureLabel"
+        Me.HouseTemperatureLabel.Size = New System.Drawing.Size(202, 26)
+        Me.HouseTemperatureLabel.TabIndex = 42
+        Me.HouseTemperatureLabel.Text = "House Temperature: "
+        '
+        'SaveCurrentSettingsToolStripMenuItem
+        '
+        Me.SaveCurrentSettingsToolStripMenuItem.Name = "SaveCurrentSettingsToolStripMenuItem"
+        Me.SaveCurrentSettingsToolStripMenuItem.Size = New System.Drawing.Size(236, 26)
+        Me.SaveCurrentSettingsToolStripMenuItem.Text = "Save Current Settings"
+        '
+        'ReloadSettingsToolStripMenuItem1
+        '
+        Me.ReloadSettingsToolStripMenuItem1.Name = "ReloadSettingsToolStripMenuItem1"
+        Me.ReloadSettingsToolStripMenuItem1.Size = New System.Drawing.Size(236, 26)
+        Me.ReloadSettingsToolStripMenuItem1.Text = "Reload Settings"
+        '
+        'DifferentialTimer
+        '
+        Me.DifferentialTimer.Enabled = True
+        Me.DifferentialTimer.Interval = 5000
+        '
         'HVAC_Final_Program_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(130, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1003, 608)
+        Me.Controls.Add(Me.HouseTemperatureLabel)
         Me.Controls.Add(Me.ISULogoPictureBox)
         Me.Controls.Add(Me.SystemTemperatureLabel)
         Me.Controls.Add(Me.FanIndicatorLabel)
@@ -479,4 +520,9 @@ Partial Class HVAC_Final_Program_Form
     Friend WithEvents SystemTemperatureLabel As Label
     Friend WithEvents ISULogoPictureBox As PictureBox
     Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents OpenSettingsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents HouseTemperatureLabel As Label
+    Friend WithEvents SaveCurrentSettingsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReloadSettingsToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents DifferentialTimer As Timer
 End Class
