@@ -162,5 +162,11 @@
   <ItemGroup>
     <None Include="Resources\Bengal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ErrorOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ErrorOn.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

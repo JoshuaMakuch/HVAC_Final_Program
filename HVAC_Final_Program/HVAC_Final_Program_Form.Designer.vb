@@ -31,8 +31,11 @@ Partial Class HVAC_Final_Program_Form
         Me.SettToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedCOMPortToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedBaudRateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReloadSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HVACSettingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SaveCurrentSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReloadSettingsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SerialPort1 = New System.IO.Ports.SerialPort(Me.components)
         Me.OverallTemperatureLabel = New System.Windows.Forms.Label()
         Me.ExitButton = New System.Windows.Forms.Button()
@@ -53,25 +56,24 @@ Partial Class HVAC_Final_Program_Form
         Me.CoolingElementIndicatorLabel = New System.Windows.Forms.Label()
         Me.FanIndicatorLabel = New System.Windows.Forms.Label()
         Me.SystemTemperatureLabel = New System.Windows.Forms.Label()
+        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.HouseTemperatureLabel = New System.Windows.Forms.Label()
+        Me.DifferentialTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.ErrorPictureBox = New System.Windows.Forms.PictureBox()
+        Me.ISULogoPictureBox = New System.Windows.Forms.PictureBox()
         Me.FanIndicatorPictureBox = New System.Windows.Forms.PictureBox()
         Me.CoolingElementIndicatorPictureBox = New System.Windows.Forms.PictureBox()
         Me.HeatingElementIndicatorPictureBox = New System.Windows.Forms.PictureBox()
         Me.SafteyInterlockIndicatorPictureBox = New System.Windows.Forms.PictureBox()
         Me.PortStatePictureBox = New System.Windows.Forms.PictureBox()
-        Me.ISULogoPictureBox = New System.Windows.Forms.PictureBox()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.OpenSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.HouseTemperatureLabel = New System.Windows.Forms.Label()
-        Me.SaveCurrentSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ReloadSettingsToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DifferentialTimer = New System.Windows.Forms.Timer(Me.components)
         Me.MenuStrip1.SuspendLayout()
+        CType(Me.ErrorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ISULogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FanIndicatorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CoolingElementIndicatorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.HeatingElementIndicatorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SafteyInterlockIndicatorPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PortStatePictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ISULogoPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -110,32 +112,38 @@ Partial Class HVAC_Final_Program_Form
         'ConnectToolStripMenuItem
         '
         Me.ConnectToolStripMenuItem.Name = "ConnectToolStripMenuItem"
-        Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(193, 26)
         Me.ConnectToolStripMenuItem.Text = "Connect"
         '
         'SettToolStripMenuItem
         '
         Me.SettToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedCOMPortToolStripMenuItem, Me.SelectedBaudRateToolStripMenuItem, Me.OpenSettingsToolStripMenuItem})
         Me.SettToolStripMenuItem.Name = "SettToolStripMenuItem"
-        Me.SettToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.SettToolStripMenuItem.Size = New System.Drawing.Size(193, 26)
         Me.SettToolStripMenuItem.Text = "Settings"
         '
         'SelectedCOMPortToolStripMenuItem
         '
         Me.SelectedCOMPortToolStripMenuItem.Name = "SelectedCOMPortToolStripMenuItem"
-        Me.SelectedCOMPortToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.SelectedCOMPortToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.SelectedCOMPortToolStripMenuItem.Text = "SelectedCOMPort"
         '
         'SelectedBaudRateToolStripMenuItem
         '
         Me.SelectedBaudRateToolStripMenuItem.Name = "SelectedBaudRateToolStripMenuItem"
-        Me.SelectedBaudRateToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.SelectedBaudRateToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.SelectedBaudRateToolStripMenuItem.Text = "SelectedBaudRate"
+        '
+        'OpenSettingsToolStripMenuItem
+        '
+        Me.OpenSettingsToolStripMenuItem.Name = "OpenSettingsToolStripMenuItem"
+        Me.OpenSettingsToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
+        Me.OpenSettingsToolStripMenuItem.Text = "Open Settings"
         '
         'ReloadSettingsToolStripMenuItem
         '
         Me.ReloadSettingsToolStripMenuItem.Name = "ReloadSettingsToolStripMenuItem"
-        Me.ReloadSettingsToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.ReloadSettingsToolStripMenuItem.Size = New System.Drawing.Size(193, 26)
         Me.ReloadSettingsToolStripMenuItem.Text = "Reload Settings"
         '
         'HVACSettingToolStripMenuItem
@@ -145,6 +153,18 @@ Partial Class HVAC_Final_Program_Form
         Me.HVACSettingToolStripMenuItem.Name = "HVACSettingToolStripMenuItem"
         Me.HVACSettingToolStripMenuItem.Size = New System.Drawing.Size(116, 26)
         Me.HVACSettingToolStripMenuItem.Text = "HVAC Settings"
+        '
+        'SaveCurrentSettingsToolStripMenuItem
+        '
+        Me.SaveCurrentSettingsToolStripMenuItem.Name = "SaveCurrentSettingsToolStripMenuItem"
+        Me.SaveCurrentSettingsToolStripMenuItem.Size = New System.Drawing.Size(236, 26)
+        Me.SaveCurrentSettingsToolStripMenuItem.Text = "Save Current Settings"
+        '
+        'ReloadSettingsToolStripMenuItem1
+        '
+        Me.ReloadSettingsToolStripMenuItem1.Name = "ReloadSettingsToolStripMenuItem1"
+        Me.ReloadSettingsToolStripMenuItem1.Size = New System.Drawing.Size(236, 26)
+        Me.ReloadSettingsToolStripMenuItem1.Text = "Reload Settings"
         '
         'SerialPort1
         '
@@ -346,6 +366,44 @@ Partial Class HVAC_Final_Program_Form
         Me.SystemTemperatureLabel.Text = "System Temperature: 75ºF"
         Me.SystemTemperatureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'HouseTemperatureLabel
+        '
+        Me.HouseTemperatureLabel.AutoSize = True
+        Me.HouseTemperatureLabel.Font = New System.Drawing.Font("Trebuchet MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.HouseTemperatureLabel.ForeColor = System.Drawing.Color.Black
+        Me.HouseTemperatureLabel.Location = New System.Drawing.Point(390, 149)
+        Me.HouseTemperatureLabel.Name = "HouseTemperatureLabel"
+        Me.HouseTemperatureLabel.Size = New System.Drawing.Size(202, 26)
+        Me.HouseTemperatureLabel.TabIndex = 42
+        Me.HouseTemperatureLabel.Text = "House Temperature: "
+        '
+        'DifferentialTimer
+        '
+        Me.DifferentialTimer.Enabled = True
+        Me.DifferentialTimer.Interval = 5000
+        '
+        'ErrorPictureBox
+        '
+        Me.ErrorPictureBox.Location = New System.Drawing.Point(9, 390)
+        Me.ErrorPictureBox.Name = "ErrorPictureBox"
+        Me.ErrorPictureBox.Size = New System.Drawing.Size(100, 100)
+        Me.ErrorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.ErrorPictureBox.TabIndex = 43
+        Me.ErrorPictureBox.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.ErrorPictureBox, "If you can see the sad face," & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "an error has occured and" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "system maintenace is " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "re" &
+        "quired :(")
+        '
+        'ISULogoPictureBox
+        '
+        Me.ISULogoPictureBox.Image = Global.HVAC_Final_Program.My.Resources.Resources.Bengal
+        Me.ISULogoPictureBox.Location = New System.Drawing.Point(9, 40)
+        Me.ISULogoPictureBox.Name = "ISULogoPictureBox"
+        Me.ISULogoPictureBox.Size = New System.Drawing.Size(82, 84)
+        Me.ISULogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.ISULogoPictureBox.TabIndex = 41
+        Me.ISULogoPictureBox.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.ISULogoPictureBox, "HVAC System Program" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Designed By: Joshua Makuch" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Fall 2023 - RCET")
+        '
         'FanIndicatorPictureBox
         '
         Me.FanIndicatorPictureBox.Location = New System.Drawing.Point(884, 425)
@@ -391,57 +449,13 @@ Partial Class HVAC_Final_Program_Form
         Me.PortStatePictureBox.TabIndex = 26
         Me.PortStatePictureBox.TabStop = False
         '
-        'ISULogoPictureBox
-        '
-        Me.ISULogoPictureBox.Image = Global.HVAC_Final_Program.My.Resources.Resources.Bengal
-        Me.ISULogoPictureBox.Location = New System.Drawing.Point(9, 40)
-        Me.ISULogoPictureBox.Name = "ISULogoPictureBox"
-        Me.ISULogoPictureBox.Size = New System.Drawing.Size(82, 84)
-        Me.ISULogoPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
-        Me.ISULogoPictureBox.TabIndex = 41
-        Me.ISULogoPictureBox.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.ISULogoPictureBox, "HVAC System Program" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Designed By: Joshua Makuch" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Fall 2023 - RCET")
-        '
-        'OpenSettingsToolStripMenuItem
-        '
-        Me.OpenSettingsToolStripMenuItem.Name = "OpenSettingsToolStripMenuItem"
-        Me.OpenSettingsToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
-        Me.OpenSettingsToolStripMenuItem.Text = "Open Settings"
-        '
-        'HouseTemperatureLabel
-        '
-        Me.HouseTemperatureLabel.AutoSize = True
-        Me.HouseTemperatureLabel.Font = New System.Drawing.Font("Trebuchet MS", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.HouseTemperatureLabel.ForeColor = System.Drawing.Color.Black
-        Me.HouseTemperatureLabel.Location = New System.Drawing.Point(390, 149)
-        Me.HouseTemperatureLabel.Name = "HouseTemperatureLabel"
-        Me.HouseTemperatureLabel.Size = New System.Drawing.Size(202, 26)
-        Me.HouseTemperatureLabel.TabIndex = 42
-        Me.HouseTemperatureLabel.Text = "House Temperature: "
-        '
-        'SaveCurrentSettingsToolStripMenuItem
-        '
-        Me.SaveCurrentSettingsToolStripMenuItem.Name = "SaveCurrentSettingsToolStripMenuItem"
-        Me.SaveCurrentSettingsToolStripMenuItem.Size = New System.Drawing.Size(236, 26)
-        Me.SaveCurrentSettingsToolStripMenuItem.Text = "Save Current Settings"
-        '
-        'ReloadSettingsToolStripMenuItem1
-        '
-        Me.ReloadSettingsToolStripMenuItem1.Name = "ReloadSettingsToolStripMenuItem1"
-        Me.ReloadSettingsToolStripMenuItem1.Size = New System.Drawing.Size(236, 26)
-        Me.ReloadSettingsToolStripMenuItem1.Text = "Reload Settings"
-        '
-        'DifferentialTimer
-        '
-        Me.DifferentialTimer.Enabled = True
-        Me.DifferentialTimer.Interval = 5000
-        '
         'HVAC_Final_Program_Form
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(130, Byte), Integer), CType(CType(130, Byte), Integer), CType(CType(130, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(1003, 608)
+        Me.Controls.Add(Me.ErrorPictureBox)
         Me.Controls.Add(Me.HouseTemperatureLabel)
         Me.Controls.Add(Me.ISULogoPictureBox)
         Me.Controls.Add(Me.SystemTemperatureLabel)
@@ -472,12 +486,13 @@ Partial Class HVAC_Final_Program_Form
         Me.Text = "HVAC_Final_Program_Form"
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        CType(Me.ErrorPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ISULogoPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FanIndicatorPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CoolingElementIndicatorPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.HeatingElementIndicatorPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SafteyInterlockIndicatorPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PortStatePictureBox, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ISULogoPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -525,4 +540,5 @@ Partial Class HVAC_Final_Program_Form
     Friend WithEvents SaveCurrentSettingsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ReloadSettingsToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents DifferentialTimer As Timer
+    Friend WithEvents ErrorPictureBox As PictureBox
 End Class

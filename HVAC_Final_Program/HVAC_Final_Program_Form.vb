@@ -22,12 +22,12 @@ Public Class HVAC_Final_Program_Form
     Dim SelectedBaudRate As String
     Dim PortState As Boolean
     Public receiveByte(18) As Byte 'Receive Data Bytes
-    Dim NewData As Integer
+    Dim NewData, QYATBoardSampleTime As Integer
     Dim DataIn1, DataIn2, DataIn3, DataIn4, DataIn5, DataIn6, DataIn7, DataIn8 As Integer
     Dim SafteyInterlockIndicator, HeatingElementIndicator, CoolingElementIndicator, SystemFanIndicator As Boolean
-    Dim SafteyInterlockSwitch, HeatingSwitch, FanOnlySwitch, PressureSensor As Boolean
-    Dim QYATBoardSampleTime As Integer
-    Dim SystemFanCount, HeatingSwitchFanCount, DifferentialCount As Integer
+    Dim SafteyInterlockSwitch, HeatingSwitch, FanOnlySwitch, PressureSensor, InterlockErrorLogStatus As Boolean
+    Dim ErrorStatus As Boolean
+    Dim SystemFanCount, HeatingSwitchFanCount, DifferentialCount, TempDiffCount As Integer
 
 
     Dim HighTemp As Double = 90
@@ -44,7 +44,7 @@ Public Class HVAC_Final_Program_Form
         LowTempTextBox.Text = CStr(Math.Round(LowTemp, 1)) & " ºF"
 
         'In the event high temp > low temp
-        If HighTemp < LowTemp Then
+        If HighTemp < LowTemp Then  'Resets high and low temps to 90 and 50 respectively and notifies the user
             HighTemp = 90
             LowTemp = 50
             SaveCurrentSettingsToolStripMenuItem_Click(sender, e)
@@ -88,10 +88,17 @@ Public Class HVAC_Final_Program_Form
             FanIndicatorPictureBox.Image = My.Resources.FanOff
         End If
 
+        'Error status occured
+        If ErrorStatus Then
+            ErrorPictureBox.Image = My.Resources.ErrorOn
+        ElseIf Not ErrorStatus Then
+            ErrorPictureBox.Image = My.Resources.ErrorOff
+        End If
+
 
 
         'Controls the logic for turining on system fan and heating element
-        If CurrentTemp < LowTemp - 2 Then
+        If CurrentTemp < LowTemp - 2 Then   '2 degree hysterisis 
             HeatingElementIndicator = True
             SystemFanIndicator = True
         ElseIf CurrentTemp > LowTemp Then
@@ -99,7 +106,7 @@ Public Class HVAC_Final_Program_Form
         End If
 
         'Controls the logic for turning on system fan and cooling element
-        If CurrentTemp > HighTemp + 2 Then
+        If CurrentTemp > HighTemp + 2 Then '2 degree hysterisis 
             CoolingElementIndicator = True
             SystemFanIndicator = True
         ElseIf CurrentTemp < HighTemp Then
@@ -107,16 +114,36 @@ Public Class HVAC_Final_Program_Form
         End If
 
         'Saftey Interlock Switch Handle
-        If SafteyInterlockSwitch Then
+        If SafteyInterlockSwitch Then   'Prevents any other indicators as well as locks QYBoardHandling, thus preventing other switches from working
             HeatingElementIndicator = False
             CoolingElementIndicator = False
             SystemFanIndicator = False
             SafteyInterlockIndicator = True
             QYATHandleTimer.Enabled = False
             QYBoardHandle()
+            'Handles the error logging of a saftey interlock trip
+            If Not InterlockErrorLogStatus Then
+                Try
+                    FileClose(1)
+                    FileOpen(1, HVACErrorLogFileName, OpenMode.Append) 'Open file for append
+                    Write(1, vbCrLf & TimeString, DateString, "Saftey Interlock Trip")
+                    FileClose(1)
+                    InterlockErrorLogStatus = True
+                    ErrorStatus = True
+                Catch ex As Exception
+                    FileClose(1)
+                    FileOpen(1, HVACErrorLogFileName, OpenMode.Output) 'Open file for output (Write Access)
+                    Write(1, TimeString, DateString, "Saftey Interlock Trip")
+                    FileClose(1)
+                    InterlockErrorLogStatus = True
+                    ErrorStatus = True
+                End Try
+
+            End If
         Else
             QYATHandleTimer.Enabled = True
             SafteyInterlockIndicator = False
+            InterlockErrorLogStatus = False
         End If
 
         'Heating switch Handle
@@ -167,28 +194,40 @@ Public Class HVAC_Final_Program_Form
         End Try
     End Sub
 
+    'Handles the differential Timer Tick, as well as error checking for system and overall temp
     Private Sub DifferentialTimer_Tick(sender As Object, e As EventArgs) Handles DifferentialTimer.Tick
+        'Checks system fan inidcators
         If SystemFanIndicator Then  'If the system fan is running then the pressure sensor will be tested
             If DifferentialCount = 0 Then   'Every inital 5 seconds it is tested (only occurs on first start up)
                 If PressureSensor Then  'If pressure sensor trip then log error
                     Try
                         FileClose(1)
+                        FileOpen(1, HVACErrorLogFileName, OpenMode.Append) 'Open file for append
+                        Write(1, vbCrLf & TimeString, DateString, "Pressure Sensor Trip")
+                        FileClose(1)
+                        ErrorStatus = True
+                    Catch ex As Exception
+                        FileClose(1)
                         FileOpen(1, HVACErrorLogFileName, OpenMode.Output) 'Open file for output (write access)
                         Write(1, TimeString, DateString, "Pressure Sensor Trip")
                         FileClose(1)
-                    Catch ex As Exception
-
+                        ErrorStatus = True
                     End Try
                 End If
             ElseIf DifferentialCount > 24 Then  'After initial check, every 2 minutes it is checked again for pres
                 If PressureSensor Then
                     Try
                         FileClose(1)
+                        FileOpen(1, HVACErrorLogFileName, OpenMode.Append) 'Open file for append
+                        Write(1, vbCrLf & TimeString, DateString, "Pressure Sensor Trip")
+                        FileClose(1)
+                        ErrorStatus = True
+                    Catch ex As Exception
+                        FileClose(1)
                         FileOpen(1, HVACErrorLogFileName, OpenMode.Output) 'Open file for output (write access)
                         Write(1, TimeString, DateString, "Pressure Sensor Trip")
                         FileClose(1)
-                    Catch ex As Exception
-
+                        ErrorStatus = True
                     End Try
                 End If
                 DifferentialCount = 1
@@ -197,6 +236,36 @@ Public Class HVAC_Final_Program_Form
         Else
             DifferentialCount = 0
         End If
+
+        'Checks difference in temperatures
+        If HeatingElementIndicator Or CoolingElementIndicator Then
+            If TempDiffCount > 24 Then  'Every 2 minutes the difference in system to overall temp is checked
+
+                If CurrentTemp > CurrentSystemTemp + 5 Or CurrentTemp < CurrentSystemTemp - 5 Then
+                    Try
+                        FileClose(1)
+                        FileOpen(1, HVACErrorLogFileName, OpenMode.Append) 'Open file for append
+                        Write(1, vbCrLf & TimeString, DateString, $"Temperature Difference Detected. System Temp: {CurrentSystemTemp}... Overall Temp: {CurrentTemp}")
+                        FileClose(1)
+                        ErrorStatus = True
+                    Catch ex As Exception
+                        FileClose(1)
+                        FileOpen(1, HVACErrorLogFileName, OpenMode.Output) 'Open file for output (write access)
+                        Write(1, TimeString, DateString, $"Temperature Difference Detected. System Temp: {CurrentSystemTemp}... Overall Temp: {CurrentTemp}")
+                        FileClose(1)
+                        ErrorStatus = True
+                    End Try
+                End If
+
+                TempDiffCount = 0
+            Else
+                TempDiffCount += 1
+            End If
+        Else
+            TempDiffCount = 0
+        End If
+
+
     End Sub
 
     'Handles the reload HVAC settings tool strip click
