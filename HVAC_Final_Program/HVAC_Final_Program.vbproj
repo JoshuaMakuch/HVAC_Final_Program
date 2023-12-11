@@ -73,6 +73,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="COMPortSettingsForm.Designer.vb">
+      <DependentUpon>COMPortSettingsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="COMPortSettingsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HVAC_Final_Program_Form.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="COMPortSettingsForm.resx">
+      <DependentUpon>COMPortSettingsForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HVAC_Final_Program_Form.resx">
       <DependentUpon>HVAC_Final_Program_Form.vb</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +128,39 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PortStateOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PortStateOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoolingOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoolingOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HeatOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HeatOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SafteyOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SafteyOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bengal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
