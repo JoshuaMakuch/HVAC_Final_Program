@@ -433,7 +433,7 @@ Public Class HVAC_Final_Program_Form
     Sub QYBoardHandle()
 
         'Sets the Sleep delay to ensure enough time has passed for smooth serial communication
-        Dim SleepDelay As Integer = 25
+        Dim SleepDelay As Integer = 50
 
         'Reads analog input 1
         Try
